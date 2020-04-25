@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.7449947a3735effb742b2ec05ccd847a.js"
+  "/precache-manifest.949acae724165971b50d2a0d08a9f4c5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pollapp.client"});
