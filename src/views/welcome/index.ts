@@ -30,8 +30,6 @@ export default class Welcome extends BaseView {
     tabs: number = null;
 
     created() {
-        console.log("BASE_URL => " + process.env.BASE_URL);
-
         this.initializePoll();
 
         if (this.$route.query.searchPollId != undefined) {
