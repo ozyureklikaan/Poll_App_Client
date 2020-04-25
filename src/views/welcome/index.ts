@@ -11,6 +11,7 @@ import { newGuid, isGuid } from '@/helper/guid';
 import { Watch } from 'vue-property-decorator';
 
 const BusinessRepository = RepositoryFactory.get("business");
+const IpRepository = RepositoryFactory.get("ip");
 
 @Component({
     directives: { mask },
@@ -74,7 +75,9 @@ export default class Welcome extends BaseView {
 
         pollViewModel.Id = newGuid();
         pollViewModel.Title = this.poll.Title;
-        pollViewModel.CreatorIpAddress = "192.168.1.3";
+        IpRepository.getIp().then(x => {
+            pollViewModel.CreatorIpAddress = x;
+        });
         this.poll.Options.forEach(option => {
             if (option.Content != undefined && option.Content != null && option.Content != '') {
                 option.Id = newGuid();

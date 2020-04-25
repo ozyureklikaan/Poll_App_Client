@@ -20,7 +20,7 @@ export class AxiosClient {
         this.config = <AxiosRequestConfig>{
             baseURL: this.baseUrl,
             headers: {
-              'Access-Control-Allow-Origin': '*'
+            //   'Access-Control-Allow-Origin': '*'
             }
         }
     }
