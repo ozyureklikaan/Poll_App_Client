@@ -25,6 +25,7 @@
                     					max-width="calc(100% - 50px)"
                   					>
 										<v-text-field
+											:tabindex="1"
 											v-model="poll.Title"
 											filled
 											color="#1e1e1e"
@@ -37,7 +38,7 @@
                   					</v-sheet>
 
 									<v-row class="pt-0 mr-1 pb-5 pl-1 justify-end">
-										<v-btn v-on:click="addNewOption" class="mr-5" color="info">
+										<v-btn :tabindex="2" v-on:click="addNewOption" class="mr-5" color="info">
 											Add Option
 											<v-icon class="pl-1">mdi-plus</v-icon>
 										</v-btn>
@@ -45,12 +46,12 @@
 
                   					<v-card-text class="overflow-y-auto pt-0 pb-0" v-scroll style="max-height: 40vh">
 										<v-row v-for="(option,index) in poll.Options" :key="index" class="pa-1">
-											<v-text-field class="ml-3 mr-3" v-model="option.Context" filled dense color="#FDA856" clearable :label="'Poll Option ' + (index + 1)"></v-text-field>
+											<v-text-field class="ml-3 mr-3" :tabindex="index + 3" v-model="option.Content" filled dense color="#FDA856" clearable :label="'Poll Option ' + (index + 1)"></v-text-field>
 										</v-row>
                   					</v-card-text>
 
 									<v-row class="pt-0 pr-1 pb-5 pl-1 justify-end">
-										<v-btn class="mr-7 mt-5" :disabled="checkPollForCreate()" v-on:click="createPoll" color="success">
+										<v-btn :tabindex="18" class="mr-7 mt-5" :disabled="checkPollForCreate()" v-on:click="createPoll" color="success">
 											Create Poll
 											<v-icon class="pl-1">post_add</v-icon>
 										</v-btn>
@@ -68,6 +69,7 @@
 										max-width="calc(100% - 50px)"
 									>
 										<v-text-field
+											:tabindex="1"
 											filled
 											color="#1e1e1e"
 											background-color="#FFCC41"
@@ -81,13 +83,12 @@
 											@keydown.enter="changeSearch()"
 											v-mask="'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX'"
 										></v-text-field>
-											<!-- ref="searchBox" -->
                   					</v-sheet>
 
 									<v-card-text v-if="findPoll" class="overflow-y-auto pt-0 pb-0" v-scroll style="max-height: 40vh">
 										<v-row v-for="(option, index) in poll.Options" :key="index" class="pa-1">
 											<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="'Poll Option ' + (index + 1)"></v-text-field>
-											<v-btn class="mr-2" fab color="#1e1e1e">
+											<v-btn :tabindex="index + 2" class="mr-2" fab color="#1e1e1e">
 												<v-icon large color="#FFCC41">check</v-icon>
 											</v-btn>
 										</v-row>

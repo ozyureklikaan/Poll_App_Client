@@ -3,7 +3,7 @@ import { PollViewModel } from './models/poll-view-model';
 import { deserialize } from "class-transformer";
 
 const resource = '/poll';
-const baseServiceURL = `${process.env.API_GATEWAY_URL}/`;
+const baseServiceURL = `${process.env.SERVICE_URL}`;
 
 export default class extends AxiosClient {
     constructor() {
@@ -15,13 +15,14 @@ export default class extends AxiosClient {
             pollId: pollId
         };
 
-        return await this.axiosClient.get(`${resource}/get-poll`, { params }).then(response => {
+        return await this.axiosClient.get(`${resource}`, { params }).then(response => {
             return deserialize(PollViewModel, JSON.stringify(response.data));
         });
     }
 
     async createPoll(poll: PollViewModel): Promise<PollViewModel> {
-        return await this.axiosClient.post(`${resource}/create-poll`, poll).then(response => {
+        return await this.axiosClient.post(`${resource}`, poll).then(response => {
+            console.log(response);
             return deserialize(PollViewModel, JSON.stringify(response.data));
         });
     }

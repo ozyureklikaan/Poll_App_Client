@@ -4,5 +4,5 @@ module.exports = {
     NODE_ENV: '"development"',
     APP_ENV: '"development"',
 
-    BASE_URL: '"https://localhost:3000/"',
+    SERVICE_URL: '"https://localhost:3000/"',
 }

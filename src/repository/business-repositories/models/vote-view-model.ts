@@ -5,5 +5,5 @@ export class VoteViewModel {
 
     Id: string;
     IpAddress: string;
-    // OptionId: string;
+    OptionId: string;
 }

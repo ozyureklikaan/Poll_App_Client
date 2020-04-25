@@ -68,27 +68,33 @@ export default class Welcome extends BaseView {
     }
 
     createPoll() {
-        let createdPoll = null;
+        let that = this;
+        let createdPoll = null
+        let pollViewModel = new PollViewModel();
 
-        let createPoll = new PollViewModel();
-        createPoll.Id = newGuid();
+        pollViewModel.Id = newGuid();
+        pollViewModel.Title = this.poll.Title;
+        pollViewModel.CreatorIpAddress = "192.168.1.3";
         this.poll.Options.forEach(option => {
-            if (option.Context != undefined && option.Context != null && option.Context != '') {
+            if (option.Content != undefined && option.Content != null && option.Content != '') {
                 option.Id = newGuid();
-                createPoll.Options.push(option);
+                option.PollId = pollViewModel.Id;
+                pollViewModel.Options.push(option);
             }
         });
 
-        BusinessRepository.createPoll(createPoll).then(x => {
+        BusinessRepository.createPoll(pollViewModel).then(x => {
             createdPoll = x;
         }).finally(function () {
             if (createdPoll) {
-                this.navigate("/", { searchPollId: createdPoll.Id });
+                that.navigate("/", { searchPollId: createdPoll.Id });
                 location.reload();
+                that.success("Poll Created");
+            }
+            else {
+                that.error("An error was encountered. Please try again.");
             }
         });
-        // this.navigate("/", { searchPollId: createPoll.Id });
-        // location.reload();
     }
     
     @Watch("poll")
@@ -97,7 +103,7 @@ export default class Welcome extends BaseView {
 
         if (this.poll.Title != undefined && this.poll.Title != null && this.poll.Title != '') {
             this.poll.Options.forEach(option => {
-                if (option.Context != undefined && option.Context != null && option.Context != '') {
+                if (option.Content != undefined && option.Content != null && option.Content != '') {
                     validOption++;
                 }
             });

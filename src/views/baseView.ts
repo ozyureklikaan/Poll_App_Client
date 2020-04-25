@@ -1,7 +1,7 @@
 import { Vue } from 'vue-property-decorator'
 // import { inputRules } from '@/helper/validations'
 // import dateFormat from '@/utils/date-formatter';
-// import miniToastr from '@/plugins/mini-toastr-notification';
+import miniToastr from '@/plugins/mini-toastr-notification';
 // import { getUser } from '@/helper';
 
 
@@ -27,24 +27,24 @@ export default class BaseView extends Vue {
 //     setTimeout(() => this.$store.commit("SET_LOADING", false), 1000);
 //   }
 
-//   success(message: string, title: string = '') {
-//     miniToastr.success(message, title)
-//   }
+  success(message: string, title: string = '') {
+    miniToastr.success(message, title)
+  }
 
-//   info(message: string, title: string = '') {
-//     miniToastr.info(message, title)
-//   }
+  info(message: string, title: string = '') {
+    miniToastr.info(message, title)
+  }
 
-//   warn(message: string, title: string = '') {
-//     miniToastr.warn(message, title)
-//   }
+  warn(message: string, title: string = '') {
+    miniToastr.warn(message, title)
+  }
 
-//   error(message: string, title: string = '') {
-//     miniToastr.error(message, title, 5000)
-//   }
+  error(message: string, title: string = '') {
+    miniToastr.error(message, title, 5000)
+  }
 
-//   handleError(error: any | Error, title: string = 'Hata') {
-//     let msg = error['detail'] || error.message;
-//     miniToastr.error(msg, '', 5000);
-//   }
+  handleError(error: any | Error, title: string = 'Hata') {
+    let msg = error['detail'] || error.message;
+    miniToastr.error(msg, '', 5000);
+  }
 }

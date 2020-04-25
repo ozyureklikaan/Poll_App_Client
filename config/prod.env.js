@@ -5,5 +5,5 @@ module.exports = {
     NODE_ENV: '"production"',
     APP_ENV: '"production"',
 
-    BASE_URL: '"https://poll-app-api-v1.herokuapp.com/"',
+    SERVICE_URL: '"https://poll-app-api-v1.herokuapp.com/"',
 }

@@ -6,7 +6,7 @@ export class OptionViewModel {
     }
 
     Id: string;
-    Context: string;
-    // PollId: string;
+    Content: string;
+    PollId: string;
     Votes: Array<VoteViewModel>;
 }
