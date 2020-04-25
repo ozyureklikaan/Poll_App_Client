@@ -86,18 +86,20 @@ export default class Welcome extends BaseView {
             }
         });
 
-        BusinessRepository.createPoll(pollViewModel).then(x => {
-            createdPoll = x;
-        }).finally(function () {
-            if (createdPoll) {
-                that.navigate("/", { searchPollId: createdPoll.Id });
-                location.reload();
-                that.success("Poll Created");
-            }
-            else {
-                that.error("An error was encountered. Please try again.");
-            }
-        });
+        setTimeout(() => {
+            BusinessRepository.createPoll(pollViewModel).then(x => {
+                createdPoll = x;
+            }).finally(function () {
+                if (createdPoll) {
+                    that.navigate("/", { searchPollId: createdPoll.Id });
+                    location.reload();
+                    that.success("Poll Created");
+                }
+                else {
+                    that.error("An error was encountered. Please try again.");
+                }
+            });
+        }, 1000);
     }
     
     @Watch("poll")
