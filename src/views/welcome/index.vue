@@ -86,11 +86,17 @@
                   					</v-sheet>
 
 									<v-card-text v-if="findPoll" class="overflow-y-auto pt-0 pb-0" v-scroll style="max-height: 40vh">
-										<v-row v-for="(option, index) in poll.Options" :key="index" class="pa-1">
-											<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="'Poll Option ' + (index + 1)"></v-text-field>
-											<v-btn :tabindex="index + 2" class="mr-2" fab color="#1e1e1e">
+										<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="findPoll.Title"></v-text-field>
+										<v-row v-for="(option, index) in findPoll.Options" :key="index" class="pa-1">
+											<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="option.Content"></v-text-field>
+											<v-btn v-if="!isPollCreator" :disabled="isVoted(option)" :tabindex="index + 2" class="mr-2" fab color="#1e1e1e">
 												<v-icon large color="#FFCC41">check</v-icon>
 											</v-btn>
+											<v-card class="ml-3 mr-5" v-if="isPollCreator" :elevation="0">
+												<v-card-text>
+													<p class="text-center ma-0 vote-count">{{ option.Votes.length }}</p>
+												</v-card-text>
+											</v-card>
 										</v-row>
                   					</v-card-text>
 
@@ -153,5 +159,10 @@
 
 	.poll-name {
 		font-size: 20px;
+	}
+
+	.vote-count {
+		font-size: 20px;
+		font-weight: bold;
 	}
 </style>

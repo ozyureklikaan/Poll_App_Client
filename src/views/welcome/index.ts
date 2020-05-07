@@ -9,6 +9,7 @@ import { PollViewModel } from '@/repository/business-repositories/models/poll-vi
 import { OptionViewModel } from '@/repository/business-repositories/models/option-view-model';
 import { newGuid, isGuid } from '@/helper/guid';
 import { Watch } from 'vue-property-decorator';
+import { VoteViewModel } from '@/repository/business-repositories/models/vote-view-model';
 
 const BusinessRepository = RepositoryFactory.get("business");
 const IpRepository = RepositoryFactory.get("ip");
@@ -23,8 +24,12 @@ export default class Welcome extends BaseView {
         super();
     }
 
+    clientIpAddress: string = "";
+
     poll: PollViewModel = new PollViewModel();
+
     findPoll: PollViewModel = null;
+    isPollCreator: boolean = false;
 
     searchPollId: string = '';
 
@@ -32,6 +37,7 @@ export default class Welcome extends BaseView {
 
     created() {
         this.initializePoll();
+        this.getClientIpAddress();
 
         if (this.$route.query.searchPollId != undefined) {
             this.tabs = 1;
@@ -44,6 +50,13 @@ export default class Welcome extends BaseView {
         for (let index = 0; index < 3; index++) {
             this.poll.Options.push(new OptionViewModel());
         }
+    }
+
+    getClientIpAddress() {
+        IpRepository.getIp().then(x => {
+            this.clientIpAddress = x;
+            console.log("Client Ip Address => " + this.clientIpAddress);
+        });
     }
 
     addNewOption() {
@@ -64,8 +77,22 @@ export default class Welcome extends BaseView {
         BusinessRepository.getPoll(this.searchPollId).then(x => {
             this.findPoll = x;
         }).finally(x => {
-           
+            console.log(this.findPoll);
         });
+    }
+
+    @Watch("findPoll")
+    changeSearchPoll() {
+        if (this.findPoll.CreatorIpAddress == this.clientIpAddress) {
+            this.isPollCreator = true;
+        }
+    }
+
+    isVoted(option: OptionViewModel) {
+        if(option.Votes.find(x => x.IpAddress == this.clientIpAddress)) {
+            return true;
+        }
+        return false;
     }
 
     createPoll() {
@@ -75,9 +102,10 @@ export default class Welcome extends BaseView {
 
         pollViewModel.Id = newGuid();
         pollViewModel.Title = this.poll.Title;
-        IpRepository.getIp().then(x => {
-            pollViewModel.CreatorIpAddress = x;
-        });
+        // IpRepository.getIp().then(x => {
+        //     pollViewModel.CreatorIpAddress = x;
+        // });
+        pollViewModel.CreatorIpAddress = this.clientIpAddress;
         this.poll.Options.forEach(option => {
             if (option.Content != undefined && option.Content != null && option.Content != '') {
                 option.Id = newGuid();
@@ -86,7 +114,7 @@ export default class Welcome extends BaseView {
             }
         });
 
-        setTimeout(() => {
+        // setTimeout(() => {
             BusinessRepository.createPoll(pollViewModel).then(x => {
                 createdPoll = x;
             }).finally(function () {
@@ -99,7 +127,7 @@ export default class Welcome extends BaseView {
                     that.error("An error was encountered. Please try again.");
                 }
             });
-        }, 1000);
+        // }, 1000);
     }
     
     @Watch("poll")
