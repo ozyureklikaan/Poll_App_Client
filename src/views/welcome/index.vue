@@ -89,7 +89,7 @@
 										<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="findPoll.Title"></v-text-field>
 										<v-row v-for="(option, index) in findPoll.Options" :key="index" class="pa-1">
 											<v-text-field class="ml-3 mr-3" filled disabled dense color="#FDA856" :label="option.Content"></v-text-field>
-											<v-btn v-if="!isPollCreator" :disabled="isVoted(option)" :tabindex="index + 2" class="mr-2" fab color="#1e1e1e">
+											<v-btn v-if="!isPollCreator" @click="useVote(option.Id)" :disabled="isVoted(option)" :tabindex="index + 2" class="mr-2" fab color="#1e1e1e">
 												<v-icon large color="#FFCC41">check</v-icon>
 											</v-btn>
 											<v-card class="ml-3 mr-5" v-if="isPollCreator" :elevation="0">

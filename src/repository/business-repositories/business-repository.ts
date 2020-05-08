@@ -5,6 +5,7 @@ import { OptionViewModel } from './models/option-view-model';
 import { VoteViewModel } from './models/vote-view-model';
 
 const resource = '/poll';
+const resourceVote = '/vote';
 const baseServiceURL = `${process.env.SERVICE_URL}`;
 
 export default class extends AxiosClient {
@@ -26,6 +27,18 @@ export default class extends AxiosClient {
     async createPoll(poll: PollViewModel): Promise<PollViewModel> {
         return await this.axiosClient.post(`${resource}`, poll).then(response => {
             return deserialize(PollViewModel, JSON.stringify(response.data));
+        });
+    }
+
+    async createVote(vote: VoteViewModel): Promise<VoteViewModel> {
+        return await this.axiosClient.post(`${resourceVote}`, vote).then(response => {
+            return deserialize(VoteViewModel, JSON.stringify(response.data));
+        });
+    }
+
+    async updateVote(vote: VoteViewModel): Promise<VoteViewModel> {
+        return await this.axiosClient.put(`${resourceVote}`, vote).then(response => {
+            return deserialize(VoteViewModel, JSON.stringify(response.data));
         });
     }
 

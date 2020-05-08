@@ -95,6 +95,49 @@ export default class Welcome extends BaseView {
         return false;
     }
 
+    useVote(selectedOptionId: string) {
+        let findVote: VoteViewModel = null;
+        this.findPoll.Options.forEach(option => {
+            let matchedVote = option.Votes.find(x => x.IpAddress == this.clientIpAddress)
+            if (matchedVote) {
+                findVote = matchedVote;
+            }
+        });
+
+        if(!findVote) {
+            findVote = new VoteViewModel();
+            findVote.Id = newGuid();
+            findVote.IpAddress = this.clientIpAddress;
+            findVote.OptionId = selectedOptionId;
+            this.createVote(findVote);
+        }
+        else {
+            let oldOptionId = findVote.OptionId;
+            findVote.OptionId = selectedOptionId;
+            this.updateVote(findVote, oldOptionId);
+        }
+    }
+
+    createVote(vote: VoteViewModel) {
+        BusinessRepository.createVote(vote).then(x => {
+            if (x.Id) {
+                this.findPoll.Options.find(x => x.Id == vote.OptionId).Votes.push(vote);
+            }
+        });
+    }
+
+    updateVote(vote: VoteViewModel, oldOptionId: string) {
+        BusinessRepository.updateVote(vote).then(x => {
+            
+        }).then(x => {
+            setTimeout(() => {
+                BusinessRepository.getPoll(this.findPoll.Id).then(x => {
+                    this.findPoll = x;
+                });
+            }, 1000);
+        });
+    }
+
     createPoll() {
         let that = this;
         let createdPoll = null
